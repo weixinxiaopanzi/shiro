@@ -39,8 +39,8 @@ public class ShiroConfig {
         // 配置不会被拦截的链接 顺序判断o
         filterChainDefinitionMap.put("/user/login.do", "anon");//登录
         filterChainDefinitionMap.put("/js/**", "anon");
+        filterChainDefinitionMap.put("/css/**", "anon");
         
-//        filterChainDefinitionMap.put("/css/**", "anon");
 //        filterChainDefinitionMap.put("/images/**", "anon");
 //        filterChainDefinitionMap.put("/scss/**", "anon");
 //        filterChainDefinitionMap.put("/vendors/**", "anon");
