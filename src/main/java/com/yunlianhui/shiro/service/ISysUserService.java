@@ -18,4 +18,6 @@ public interface ISysUserService {
 	 * @return
 	 */
 	SysUser selectByUsername(String primaryPrincipal);
+	
+	int updateById(SysUser sysUser);
 }

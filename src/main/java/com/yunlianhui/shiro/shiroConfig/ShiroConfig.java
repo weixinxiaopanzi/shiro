@@ -41,12 +41,6 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/css/**", "anon");
         
-//        filterChainDefinitionMap.put("/images/**", "anon");
-//        filterChainDefinitionMap.put("/scss/**", "anon");
-//        filterChainDefinitionMap.put("/vendors/**", "anon");
-//        filterChainDefinitionMap.put("/view/**", "anon");
-//        filterChainDefinitionMap.put("/api/**", "anon");
-        
         //配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
         filterChainDefinitionMap.put("/logout", "logout");
         //<!-- 过滤链定义，从上向下顺序执行，一般将/**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了;
@@ -54,7 +48,7 @@ public class ShiroConfig {
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
         shiroFilterFactoryBean.setLoginUrl("/login.html");
         // 登录成功后要跳转的链接
-        //shiroFilterFactoryBean.setSuccessUrl("/sys/sysUserList");
+        shiroFilterFactoryBean.setSuccessUrl("/index.html");
         //未授权界面;
         //shiroFilterFactoryBean.setUnauthorizedUrl("/static/403");
        
@@ -63,7 +57,7 @@ public class ShiroConfig {
     }
 
    
-    	
+    //加入注解的使用，不加入这个注解不生效
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor advisor = new AuthorizationAttributeSourceAdvisor();

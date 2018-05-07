@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunlianhui.shiro.mapper.SysRoleMapper">
+  <resultMap id="BaseResultMap" type="com.yunlianhui.shiro.entity.SysRole">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="roleName" jdbcType="VARCHAR" property="roleName" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="operatorId" jdbcType="INTEGER" property="operatorId" />
+    <result column="updateTime" jdbcType="VARCHAR" property="updateTime" />
+    <result column="createTime" jdbcType="VARCHAR" property="createTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, roleName, status, operatorId, updateTime, createTime, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sysrole
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sysrole
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunlianhui.shiro.entity.SysRole">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sysrole (roleName, status, operatorId, 
+      updateTime, createTime, remark
+      )
+    values (#{roleName,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{operatorId,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunlianhui.shiro.entity.SysRole">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sysrole
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleName != null">
+        roleName,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="operatorId != null">
+        operatorId,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleName != null">
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null">
+        #{operatorId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunlianhui.shiro.entity.SysRole">
+    update sysrole
+    <set>
+      <if test="roleName != null">
+        roleName = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null">
+        operatorId = #{operatorId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunlianhui.shiro.entity.SysRole">
+    update sysrole
+    set roleName = #{roleName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      operatorId = #{operatorId,jdbcType=INTEGER},
+      updateTime = #{updateTime,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

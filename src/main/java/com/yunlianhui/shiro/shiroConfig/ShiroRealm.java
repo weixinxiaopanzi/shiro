@@ -18,7 +18,6 @@ import org.apache.shiro.util.ByteSource;
 
 import com.yunlianhui.shiro.entity.SysUser;
 import com.yunlianhui.shiro.service.ISysUserService;
-import com.yunlianhui.shiro.util.CipherUtil;
 
 
 /**
@@ -84,7 +83,6 @@ public class ShiroRealm extends AuthorizingRealm {
 		if (!userInfo.getPassword().equals(password)) {
 			throw new IncorrectCredentialsException(); // 密码错误
 		}
-		password = CipherUtil.generatePassword(password);
 		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
 				userInfo.getUserName(), // 用户名
 				userInfo.getPassword(), // 密码

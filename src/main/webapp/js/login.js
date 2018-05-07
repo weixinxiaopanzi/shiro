@@ -40,10 +40,10 @@ $(function () {
                 },
                 success: function (res) {
                     if (res.code == '0000') {
-                    	  window.localStorage.setItem("userInfo", JSON.stringify(res.data));
-                          window.location = './index.html';
+                    	  window.localStorage.setItem("userInfo", JSON.stringify(res.data.loginUser));
+//                          window.location = './index.html';
                     } else {
-                    	alert("登录失败!");
+                    	alert(res.message);
                     }
                 }
             })
@@ -70,10 +70,10 @@ $(function () {
                     },
     	                success:function(res){
     	                	if (res.code == '0000') {
-    	                    	  window.localStorage.setItem("userInfo", JSON.stringify(res.data));
+    	                    	  window.localStorage.setItem("userInfo", JSON.stringify(res.data.loginUser));
     	                          window.location = './index.html';
     	                    } else {
-    	                        alert("登录失败!");
+    	                        alert(res.message);
     	                    }
     	                }
     			})

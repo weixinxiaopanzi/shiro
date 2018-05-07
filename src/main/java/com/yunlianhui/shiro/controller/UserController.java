@@ -24,6 +24,7 @@ import com.yunlianhui.shiro.entity.SysUser;
 import com.yunlianhui.shiro.service.ISysUserService;
 import com.yunlianhui.shiro.util.ApiResponse;
 import com.yunlianhui.shiro.util.CipherUtil;
+import com.yunlianhui.shiro.util.DateUtil;
 import com.yunlianhui.shiro.util.UM;
 
 /**
@@ -108,12 +109,22 @@ public class UserController extends BaseController{
 			request.getSession().setAttribute(CURRENTUSER, loginUser);
 			request.getSession().setAttribute("loginUserName", loginUser.getUserName());
 			request.getSession().setMaxInactiveInterval(3600);
+			
+			sysUserService.updateById(this.buildSysUser(loginUser));
 
 			// 登录成功
 			apiResponse.setCodeAndMessage(UM.CODE_SUCCESS_0000, UM.MESSAGE_SUCCESS_0000);
-			apiResponse.putData("id", loginUser.getId());
-			apiResponse.putData("userName", userName);
+			loginUser.setPassword("");
+			apiResponse.putData("loginUser", loginUser);
 		}
 		return apiResponse;
+	}
+	
+	
+	private SysUser buildSysUser(SysUser loginUser) {
+		SysUser vo = new SysUser();
+		vo.setId(loginUser.getId());
+		vo.setLastLoginTime(DateUtil.getStringDate());
+		return vo;
 	}
 }

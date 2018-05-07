@@ -1,5 +1,6 @@
 package com.yunlianhui.shiro.listener;
 
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -40,6 +41,15 @@ public class SpringListener {
 		manager.setRealm(getUserRealm());
 		manager.setCacheManager(new MemoryConstrainedCacheManager());
 		return manager;
+	}
+	
+	@Bean
+	public HashedCredentialsMatcher getHashedCredentialsMatcher() {
+		HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+		hashedCredentialsMatcher.setHashAlgorithmName("MD5");
+		hashedCredentialsMatcher.setHashIterations(1024);
+		hashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);
+		return hashedCredentialsMatcher;
 	}
 
 //	@Bean("scheduler")

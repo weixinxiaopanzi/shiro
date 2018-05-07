@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunlianhui.shiro.mapper.SysMenuMapper">
+  <resultMap id="BaseResultMap" type="com.yunlianhui.shiro.entity.SysMenu">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="roleId" jdbcType="INTEGER" property="roleId" />
+    <result column="menuId" jdbcType="INTEGER" property="menuId" />
+    <result column="menuName" jdbcType="VARCHAR" property="menuName" />
+    <result column="menuUrl" jdbcType="VARCHAR" property="menuUrl" />
+    <result column="per" jdbcType="VARCHAR" property="per" />
+    <result column="level" jdbcType="VARCHAR" property="level" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="updateTime" jdbcType="VARCHAR" property="updateTime" />
+    <result column="createTime" jdbcType="VARCHAR" property="createTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, roleId, menuId, menuName, menuUrl, per, level, type, updateTime, createTime, 
+    remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sysmenu
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sysmenu
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yunlianhui.shiro.entity.SysMenu">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sysmenu (roleId, menuId, menuName, 
+      menuUrl, per, level, 
+      type, updateTime, createTime, 
+      remark)
+    values (#{roleId,jdbcType=INTEGER}, #{menuId,jdbcType=INTEGER}, #{menuName,jdbcType=VARCHAR}, 
+      #{menuUrl,jdbcType=VARCHAR}, #{per,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yunlianhui.shiro.entity.SysMenu">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sysmenu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        roleId,
+      </if>
+      <if test="menuId != null">
+        menuId,
+      </if>
+      <if test="menuName != null">
+        menuName,
+      </if>
+      <if test="menuUrl != null">
+        menuUrl,
+      </if>
+      <if test="per != null">
+        per,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="updateTime != null">
+        updateTime,
+      </if>
+      <if test="createTime != null">
+        createTime,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="menuId != null">
+        #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="menuName != null">
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null">
+        #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="per != null">
+        #{per,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yunlianhui.shiro.entity.SysMenu">
+    update sysmenu
+    <set>
+      <if test="roleId != null">
+        roleId = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="menuId != null">
+        menuId = #{menuId,jdbcType=INTEGER},
+      </if>
+      <if test="menuName != null">
+        menuName = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null">
+        menuUrl = #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="per != null">
+        per = #{per,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        updateTime = #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        createTime = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yunlianhui.shiro.entity.SysMenu">
+    update sysmenu
+    set roleId = #{roleId,jdbcType=INTEGER},
+      menuId = #{menuId,jdbcType=INTEGER},
+      menuName = #{menuName,jdbcType=VARCHAR},
+      menuUrl = #{menuUrl,jdbcType=VARCHAR},
+      per = #{per,jdbcType=VARCHAR},
+      level = #{level,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      updateTime = #{updateTime,jdbcType=VARCHAR},
+      createTime = #{createTime,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

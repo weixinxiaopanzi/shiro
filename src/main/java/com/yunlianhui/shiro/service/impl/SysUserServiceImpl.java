@@ -5,7 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.yunlianhui.shiro.entity.SysUser;
-import com.yunlianhui.shiro.mapper.SysUserMapper;
+import com.yunlianhui.shiro.mapper.SysUserPoMapper;
 import com.yunlianhui.shiro.service.ISysUserService;
 
 /**
@@ -21,14 +21,22 @@ import com.yunlianhui.shiro.service.ISysUserService;
 public class SysUserServiceImpl implements ISysUserService{
 
 	@Resource
-	public SysUserMapper sysUserMapper;
+	public SysUserPoMapper sysUserPoMapper;
 	
 	/* (non-Javadoc)
 	 * @see com.yunlianhui.shiro.service.ISysUserService#selectByUsername(java.lang.String)
 	 */
 	@Override
 	public SysUser selectByUsername(String primaryPrincipal) {
-		return sysUserMapper.selectByUsername(primaryPrincipal);
+		return sysUserPoMapper.selectByUsername(primaryPrincipal);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.yunlianhui.shiro.service.ISysUserService#updateById(com.yunlianhui.shiro.entity.SysUser)
+	 */
+	@Override
+	public int updateById(SysUser sysUser) {
+		return sysUserPoMapper.updateByPrimaryKeySelective(sysUser);
 	}
 
 }
