@@ -41,13 +41,13 @@ $(function () {
                 success: function (res) {
                     if (res.code == '0000') {
                     	  window.localStorage.setItem("userInfo", JSON.stringify(res.data.loginUser));
-//                          window.location = './index.html';
+                          window.location = './index.html';
                     } else {
                     	alert(res.message);
                     }
                 }
             })
-        })
+        });
     });
     //监控密码输入框
     $(".password").on("keydown",function(e){

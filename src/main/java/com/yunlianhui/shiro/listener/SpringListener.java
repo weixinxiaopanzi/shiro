@@ -4,9 +4,12 @@ import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -30,6 +33,7 @@ import com.yunlianhui.shiro.shiroConfig.ShiroRealm;
 public class SpringListener {
 
 	@Bean("authorityRealm")
+	@DependsOn("lifecycleBeanPostProcessor")
 	public ShiroRealm getUserRealm() {
 		ShiroRealm userRealm = new ShiroRealm();
 		return userRealm;
@@ -52,11 +56,39 @@ public class SpringListener {
 		return hashedCredentialsMatcher;
 	}
 
-//	@Bean("scheduler")
-//	public Scheduler getScheduler() {
-//		Scheduler scheduler = new Scheduler();
-//		return scheduler;
-//	}
+	/**
+     * EhCacheManager，缓存管理，用户登陆成功后，把用户信息和权限信息缓存起来，
+     * 然后每次用户请求时，放入用户的session中，如果不设置这个bean，每个请求都会查询一次数据库。
+     * 
+     * @return
+     */
+//    @Bean(name = "ehCacheManager")
+//    @DependsOn("lifecycleBeanPostProcessor")
+//    public EhcacheManager ehCacheManager() {
+//        EhCacheManager cacheManager = new EhCacheManager();
+//        cacheManager.setCacheManagerConfigFile("classpath:config/ehcache-shiro.xml");
+//        return cacheManager;
+//    }
+
+    @Bean(name = "rememberMeCookie")
+    public SimpleCookie rememberMeCookie() {
+        // 这个参数是cookie的名称，对应前端的checkbox的name = rememberMe
+        SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
+        // <!-- 记住我cookie生效时间30天 ,单位秒;-->
+        simpleCookie.setMaxAge(259200);
+        return simpleCookie;
+    }
+    /**
+     * cookie管理对象;
+     * 
+     * @return
+     */
+    @Bean(name = "rememberMeManager")
+    public CookieRememberMeManager rememberMeManager() {
+        CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
+        cookieRememberMeManager.setCookie(rememberMeCookie());
+        return cookieRememberMeManager;
+    }
 
 	@EventListener
 	public void handleContextRefresh(ContextRefreshedEvent event) {

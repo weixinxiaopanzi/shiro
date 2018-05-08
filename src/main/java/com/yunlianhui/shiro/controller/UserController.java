@@ -58,10 +58,11 @@ public class UserController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping(value = "/logout.do")
-	public String logout(HttpServletRequest request) {
+	public ApiResponse logout(HttpServletRequest request) {
 		Subject currentUser = SecurityUtils.getSubject();
 		currentUser.logout();
-		return "login";
+		ApiResponse apiResponse = new ApiResponse();
+		return apiResponse.success("退出成功!");
 	}
 
 	/**

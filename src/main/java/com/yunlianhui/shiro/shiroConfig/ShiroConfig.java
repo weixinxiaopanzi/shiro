@@ -5,12 +5,13 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 /**
@@ -33,6 +34,7 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shirFilter(org.apache.shiro.mgt.SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
+        
         //拦截器.
         //<!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
         Map<String,String> filterChainDefinitionMap = new LinkedHashMap<String,String>();
@@ -45,6 +47,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/logout", "logout");
         //<!-- 过滤链定义，从上向下顺序执行，一般将/**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了;
         filterChainDefinitionMap.put("/**", "authc");
+        
+        
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
         shiroFilterFactoryBean.setLoginUrl("/login.html");
         // 登录成功后要跳转的链接
@@ -65,8 +69,13 @@ public class ShiroConfig {
         return advisor;
     }
     
+    /**
+     * DefaultAdvisorAutoProxyCreator，Spring的一个bean，由Advisor决定对哪些类的方法进行AOP代理。
+     * 
+     * @return
+     */
     @Bean
-    @ConditionalOnMissingBean
+    @DependsOn("lifecycleBeanPostProcessor")
     public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
         DefaultAdvisorAutoProxyCreator defaultAAP = new DefaultAdvisorAutoProxyCreator();
         defaultAAP.setProxyTargetClass(true);
@@ -82,6 +91,18 @@ public class ShiroConfig {
     	properties.put("UnauthorizedException", "redirect:/403");
     	exceptionResolver.setExceptionMappings(properties);
         return exceptionResolver;
+    }
+    
+    /**
+     * LifecycleBeanPostProcessor，这是个DestructionAwareBeanPostProcessor的子类，
+     * 负责org.apache.shiro.util.Initializable类型bean的生命周期的，初始化和销毁。
+     * 主要是AuthorizingRealm类的子类，以及EhCacheManager类。
+     * 
+     * @return
+     */
+    @Bean(name = "lifecycleBeanPostProcessor")
+    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
+        return new LifecycleBeanPostProcessor();
     }
 
 }
